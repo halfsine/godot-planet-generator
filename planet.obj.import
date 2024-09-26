@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dnqvf4ho8wtgl"
+path="res://.godot/imported/planet.obj-deaa17055e1111a3a33852c5960c4a82.mesh"
+
+[deps]
+
+files=["res://.godot/imported/planet.obj-deaa17055e1111a3a33852c5960c4a82.mesh"]
+
+source_file="res://planet.obj"
+dest_files=["res://.godot/imported/planet.obj-deaa17055e1111a3a33852c5960c4a82.mesh", "res://.godot/imported/planet.obj-deaa17055e1111a3a33852c5960c4a82.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

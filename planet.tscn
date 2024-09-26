@@ -1,0 +1,183 @@
+[gd_scene load_steps=32 format=3 uid="uid://bduu5sgvvf6cg"]
+
+[ext_resource type="Shader" path="res://planet.gdshader" id="1_6t1ka"]
+[ext_resource type="Script" path="res://planet.gd" id="1_usgly"]
+[ext_resource type="Shader" path="res://cloud.gdshader" id="3_5mxxi"]
+[ext_resource type="Script" path="res://camera.gd" id="4_5u6n4"]
+[ext_resource type="Script" path="res://ui.gd" id="4_lj2h1"]
+[ext_resource type="Script" path="res://sun.gd" id="5_wauj7"]
+[ext_resource type="Shader" path="res://space.gdshader" id="7_dsj34"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1evwm"]
+radius = 1.0
+height = 2.0
+radial_segments = 128
+rings = 64
+
+[sub_resource type="Gradient" id="Gradient_n60es"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.428094, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.876071, 0.876071, 0.876071, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pq1co"]
+frequency = 0.0042
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_wtdmq"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_n60es")
+noise = SubResource("FastNoiseLite_pq1co")
+
+[sub_resource type="Gradient" id="Gradient_og021"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.113712, 0.22408, 1)
+colors = PackedColorArray(0.172833, 0.172833, 0.172833, 1, 0.314316, 0.314316, 0.314316, 1, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_df7rc"]
+frequency = 0.0203
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xxrmi"]
+seamless = true
+color_ramp = SubResource("Gradient_og021")
+noise = SubResource("FastNoiseLite_df7rc")
+
+[sub_resource type="Gradient" id="Gradient_iftl3"]
+colors = PackedColorArray(0.332881, 0.332881, 0.33288, 1, 0.118581, 0.118581, 0.118581, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1181v"]
+noise_type = 3
+seed = 5650
+frequency = 0.03
+fractal_type = 3
+fractal_octaves = 2
+fractal_lacunarity = 1.54
+fractal_gain = 0.725
+fractal_ping_pong_strength = 0.84
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7yece"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_iftl3")
+noise = SubResource("FastNoiseLite_1181v")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aak1m"]
+render_priority = 0
+shader = ExtResource("1_6t1ka")
+shader_parameter/noise = SubResource("NoiseTexture2D_wtdmq")
+shader_parameter/roughTexture = SubResource("NoiseTexture2D_xxrmi")
+shader_parameter/waterTexture = SubResource("NoiseTexture2D_7yece")
+shader_parameter/waterLevel = 0.95
+shader_parameter/waterColor = Color(0.641934, 0.641934, 0.641934, 1)
+shader_parameter/landColor = Color(0, 0.678431, 0, 1)
+shader_parameter/glowingWater = false
+
+[sub_resource type="SphereMesh" id="SphereMesh_q24y0"]
+radial_segments = 128
+rings = 64
+
+[sub_resource type="Gradient" id="Gradient_hvw88"]
+offsets = PackedFloat32Array(0.284281, 0.414716, 0.675585, 0.886288, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.0692308, 1, 1, 1, 0.292091, 1, 1, 1, 0.474777, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4bje0"]
+seed = 10620
+fractal_lacunarity = 2.215
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tuso1"]
+seamless = true
+color_ramp = SubResource("Gradient_hvw88")
+noise = SubResource("FastNoiseLite_4bje0")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_4okgm"]
+noise_type = 0
+seed = 2160
+frequency = 0.02
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nhwg5"]
+seamless = true
+noise = SubResource("FastNoiseLite_4okgm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g7et3"]
+render_priority = 0
+shader = ExtResource("3_5mxxi")
+shader_parameter/cloud = SubResource("NoiseTexture2D_tuso1")
+shader_parameter/distort = SubResource("NoiseTexture2D_nhwg5")
+shader_parameter/wind = Vector2(0.001, 0.002)
+shader_parameter/color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_phjo7"]
+offsets = PackedFloat32Array(0, 0.00706714)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_13rnl"]
+noise_type = 2
+seed = 4375
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_w8mck"]
+width = 1024
+height = 1024
+color_ramp = SubResource("Gradient_phjo7")
+noise = SubResource("FastNoiseLite_13rnl")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f1lel"]
+shader = ExtResource("7_dsj34")
+shader_parameter/stars = SubResource("NoiseTexture2D_w8mck")
+
+[sub_resource type="Sky" id="Sky_xf0rx"]
+sky_material = SubResource("ShaderMaterial_f1lel")
+
+[sub_resource type="Environment" id="Environment_1nl2f"]
+background_mode = 2
+sky = SubResource("Sky_xf0rx")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Planet" type="MeshInstance3D" parent="."]
+transform = Transform3D(2000, 0, 0, 0, 2000, 0, 0, 0, 2000, 0, 0, 0)
+mesh = SubResource("SphereMesh_1evwm")
+surface_material_override/0 = SubResource("ShaderMaterial_aak1m")
+script = ExtResource("1_usgly")
+random = true
+
+[node name="Clouds" type="MeshInstance3D" parent="Planet"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("SphereMesh_q24y0")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_g7et3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.5, 0.120528, 0.857597, -8.6572e-08, -0.990268, 0.139173, 0.866026, 0.0695865, 0.495134, 0, 0, 0)
+script = ExtResource("5_wauj7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DirectionalLight3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1nl2f")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4000)
+script = ExtResource("4_5u6n4")
+
+[node name="Control" type="Control" parent="Node3D/Camera3D" node_paths=PackedStringArray("planet")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_lj2h1")
+planet = NodePath("../../../Planet")
+
+[node name="Button" type="Button" parent="Node3D/Camera3D/Control"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Randomize"
+
+[connection signal="pressed" from="Node3D/Camera3D/Control/Button" to="Node3D/Camera3D/Control" method="_on_button_pressed"]
